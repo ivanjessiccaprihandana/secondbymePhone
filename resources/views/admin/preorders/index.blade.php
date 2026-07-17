@@ -93,23 +93,37 @@
                             @endif
                         </div>
 
-                        <form method="POST" action="{{ route('admin.preorders.update', $preorder) }}"
-                            class="flex shrink-0 items-end gap-2 border-t border-slate-100 pt-4 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
-                            @csrf
-                            @method('PATCH')
-                            <label class="flex-1 text-xs font-bold text-slate-400 xl:flex-none">
-                                Ubah status
-                                <select name="status"
-                                    class="mt-1 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-900 xl:w-44">
-                                    @foreach (\App\Models\Preorder::STATUSES as $key => $label)
-                                        <option value="{{ $key }}" @selected($preorder->status === $key)>
-                                            {{ $label }}</option>
-                                    @endforeach
-                                </select>
-                            </label>
-                            <button
-                                class="rounded-xl bg-[#171816] px-4 py-2.5 text-sm font-black text-white">Simpan</button>
-                        </form>
+                        <div
+                            class="flex shrink-0 flex-col gap-3 border-t border-slate-100 pt-4 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
+                            <form method="POST" action="{{ route('admin.preorders.update', $preorder) }}"
+                                class="flex items-end gap-2">
+                                @csrf
+                                @method('PATCH')
+                                <label class="flex-1 text-xs font-bold text-slate-400 xl:flex-none">
+                                    Ubah status
+                                    <select name="status"
+                                        class="mt-1 block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-bold text-slate-900 xl:w-44">
+                                        @foreach (\App\Models\Preorder::STATUSES as $key => $label)
+                                            <option value="{{ $key }}" @selected($preorder->status === $key)>
+                                                {{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                </label>
+                                <button
+                                    class="rounded-xl bg-[#171816] px-4 py-2.5 text-sm font-black text-white">Simpan</button>
+                            </form>
+
+                            @if (in_array($preorder->status, ['selesai', 'dibatalkan'], true))
+                                <form method="POST" action="{{ route('admin.preorders.destroy', $preorder) }}"
+                                    onsubmit="return confirm('Hapus preorder #{{ $preorder->id }} secara permanen?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        class="w-full rounded-xl bg-red-50 px-4 py-2.5 text-xs font-black text-red-600 transition hover:bg-red-100">Hapus
+                                        Preorder</button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 </article>
             @empty

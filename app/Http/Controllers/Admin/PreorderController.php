@@ -36,4 +36,16 @@ class PreorderController extends Controller
 
         return back()->with('success', "Status preorder #{$preorder->id} berhasil diperbarui.");
     }
+
+    public function destroy(Preorder $preorder): RedirectResponse
+    {
+        if (! in_array($preorder->status, ['selesai', 'dibatalkan'], true)) {
+            return back()->with('error', 'Preorder hanya dapat dihapus setelah selesai atau dibatalkan.');
+        }
+
+        $preorderId = $preorder->id;
+        $preorder->delete();
+
+        return back()->with('success', "Preorder #{$preorderId} berhasil dihapus.");
+    }
 }

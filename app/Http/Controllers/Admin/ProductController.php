@@ -43,11 +43,12 @@ class ProductController extends Controller
             'storage' => $first['storage'],
             'color' => $first['color'],
             'price' => $first['price'],
-            'stock' => collect($validated['variants'])->sum('stock'),
+            'stock' => 0,
             'image_url' => '/images/iphone-13-product.png',
             'is_active' => $request->boolean('is_active'),
         ]);
         $this->syncVariants($product, $validated['variants']);
+        $this->refreshProductSummary($product);
 
         return redirect()->route('admin.products.index')->with('success', 'Produk dan variannya berhasil ditambahkan.');
     }
@@ -60,16 +61,12 @@ class ProductController extends Controller
     public function update(Request $request, Product $product): RedirectResponse
     {
         $validated = $this->validated($request);
-        $first = $validated['variants'][0];
         $product->update([
             'name' => $validated['name'],
-            'storage' => $first['storage'],
-            'color' => $first['color'],
-            'price' => collect($validated['variants'])->min('price'),
-            'stock' => collect($validated['variants'])->where('is_active', true)->sum('stock'),
             'is_active' => $request->boolean('is_active'),
         ]);
         $this->syncVariants($product, $validated['variants']);
+        $this->refreshProductSummary($product);
 
         return redirect()->route('admin.products.index')->with('success', 'Produk dan stok varian berhasil diperbarui.');
     }
@@ -106,6 +103,19 @@ class ProductController extends Controller
                 'is_active' => (bool) ($variant['is_active'] ?? false),
             ]);
         }
+    }
+
+    private function refreshProductSummary(Product $product): void
+    {
+        $activeVariants = $product->variants()->where('is_active', true)->get();
+        $firstVariant = $activeVariants->first() ?? $product->variants()->first();
+
+        $product->update([
+            'storage' => $firstVariant?->storage ?? '',
+            'color' => $firstVariant?->color ?? '',
+            'price' => $activeVariants->min('price') ?? 0,
+            'stock' => $activeVariants->sum('stock'),
+        ]);
     }
 
     private function productFamily(string $name): string

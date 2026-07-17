@@ -23,7 +23,10 @@ Route::get('/admin', function () {
 
 Route::get('/produk/{product:slug}', function (Product $product) {
     abort_unless($product->is_active && $product->stock > 0, 404);
-    $product->load('images', 'variants');
+    $product->load([
+        'images',
+        'variants' => fn ($query) => $query->where('is_active', true),
+    ]);
 
     return view('product-detail', [
         'product' => $product,
@@ -41,4 +44,5 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('products', ProductController::class)->except('show');
     Route::get('/preorders', [AdminPreorderController::class, 'index'])->name('preorders.index');
     Route::patch('/preorders/{preorder}', [AdminPreorderController::class, 'update'])->name('preorders.update');
+    Route::delete('/preorders/{preorder}', [AdminPreorderController::class, 'destroy'])->name('preorders.destroy');
 });

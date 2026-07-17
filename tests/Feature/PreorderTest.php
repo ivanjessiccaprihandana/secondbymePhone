@@ -79,4 +79,73 @@ class PreorderTest extends TestCase
             ->assertSee('3 model')
             ->assertSee('iPhone 13 Pro Max');
     }
+
+    public function test_product_summary_and_detail_follow_admin_variants(): void
+    {
+        $admin = User::factory()->create();
+        $product = Product::create([
+            'name' => 'iPhone 11 Pro',
+            'slug' => 'iphone-11-pro-test',
+            'price' => 1,
+            'storage' => '64GB',
+            'color' => 'Black',
+            'stock' => 1,
+            'image_url' => '/images/iphone-13-product.png',
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($admin)->put("/admin/products/{$product->slug}", [
+            'name' => 'iPhone 11 Pro',
+            'is_active' => '1',
+            'variants' => [
+                ['storage' => '64GB', 'color' => 'Midnight Green', 'price' => 5450000, 'stock' => 4, 'is_active' => '1'],
+                ['storage' => '64GB', 'color' => 'Natural Titanium', 'price' => 5450000, 'stock' => 3, 'is_active' => '1'],
+                ['storage' => '128GB', 'color' => 'Yellow', 'price' => 6450000, 'stock' => 2, 'is_active' => '1'],
+            ],
+        ])->assertRedirect('/admin/products');
+
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'price' => 5450000,
+            'stock' => 9,
+        ]);
+
+        $this->get("/produk/{$product->slug}")
+            ->assertOk()
+            ->assertSee('id="capacityOptions"', false)
+            ->assertSee('id="variantStockText"', false)
+            ->assertSee('"storage":"128GB"', false)
+            ->assertSee('"stock":2', false);
+    }
+
+    public function test_admin_can_only_delete_finished_or_cancelled_preorders(): void
+    {
+        $admin = User::factory()->create();
+        $activePreorder = Preorder::create([
+            'customer_name' => 'Aktif',
+            'whatsapp' => '0812',
+            'phone_series' => 'iPhone 15',
+            'storage' => '128GB',
+            'color' => 'Black',
+            'status' => 'diproses',
+        ]);
+        $finishedPreorder = Preorder::create([
+            'customer_name' => 'Selesai',
+            'whatsapp' => '0813',
+            'phone_series' => 'Samsung S24',
+            'storage' => '256GB',
+            'color' => 'Blue',
+            'status' => 'selesai',
+        ]);
+
+        $this->actingAs($admin)
+            ->delete("/admin/preorders/{$activePreorder->id}")
+            ->assertSessionHas('error');
+        $this->assertDatabaseHas('preorders', ['id' => $activePreorder->id]);
+
+        $this->actingAs($admin)
+            ->delete("/admin/preorders/{$finishedPreorder->id}")
+            ->assertSessionHas('success');
+        $this->assertDatabaseMissing('preorders', ['id' => $finishedPreorder->id]);
+    }
 }

@@ -1,3 +1,8 @@
+@php
+    $availableVariants = $product->variants->values();
+    $initialVariant = $availableVariants->firstWhere('stock', '>', 0) ?? $availableVariants->first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 
@@ -29,8 +34,10 @@
         <section class="grid gap-10 lg:grid-cols-[1.05fr_.95fr]">
             <div>
                 <div class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white"><span
+                        id="stockBadge"
                         class="absolute left-5 top-5 z-10 rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-bold text-white">Stok
-                        {{ $product->stock }}</span><img id="mainImage"
+                        varian
+                        {{ $initialVariant?->stock ?? 0 }}</span><img id="mainImage"
                         class="aspect-square w-full object-cover transition-opacity duration-200"
                         src="{{ $product->image_url }}" alt="{{ $product->name }}"></div>
                 @if ($product->images->isNotEmpty())
@@ -69,7 +76,8 @@
                             ulasan)</b></span></div>
                 <h1 class="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl">{{ $product->name }}
                     Second Original Bergaransi</h1>
-                <p class="mt-4 text-3xl font-black text-blue-700">Rp {{ number_format($product->price, 0, ',', '.') }}
+                <p id="productPrice" class="mt-4 text-3xl font-black text-blue-700">Rp
+                    {{ number_format($initialVariant?->price ?? $product->price, 0, ',', '.') }}
                 </p>
                 <div class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5">
                     <p class="font-bold text-amber-950">Kenapa pilih unit ini?</p>
@@ -81,33 +89,24 @@
                     </ul>
                 </div>
                 <div class="mt-7">
-                    <p class="text-sm font-bold">1. Pilih warna <span id="selectedColor"
-                            class="font-medium text-slate-400">— {{ $product->color }}</span></p>
-                    <div class="mt-3 flex flex-wrap gap-3">
-                        @foreach ($product->colorOptions() as $option)
-                            <button type="button" data-color="{{ $option['name'] }}" title="{{ $option['name'] }}"
-                                style="background-color: {{ $option['hex'] }}"
-                                class="color-option h-10 w-10 rounded-full border-4 border-white shadow ring-1 ring-slate-200 transition hover:scale-110"
-                                aria-label="{{ $option['name'] }}"></button>
-                        @endforeach
-                    </div>
+                    <p class="text-sm font-bold">1. Pilih kapasitas</p>
+                    <div id="capacityOptions" class="mt-3 flex flex-wrap gap-2"></div>
                 </div>
                 <div class="mt-7">
-                    <p class="text-sm font-bold">2. Pilih kapasitas</p>
-                    <div class="mt-3 flex flex-wrap gap-2">
-                        @foreach ($product->storageOptions() as $capacity)
-                            <button type="button" data-capacity="{{ $capacity }}"
-                                class="capacity-option rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold transition hover:border-blue-600 hover:text-blue-600">{{ $capacity }}</button>
-                        @endforeach
-                    </div>
+                    <p class="text-sm font-bold">2. Pilih warna <span id="selectedColor"
+                            class="font-medium text-slate-400">— pilih warna</span></p>
+                    <div id="colorOptions" class="mt-3 flex flex-wrap gap-2"></div>
                 </div>
                 <div class="mt-7">
                     <p class="text-sm font-bold">3. Tentukan jumlah</p>
                     <div class="mt-3 inline-flex items-center rounded-xl border border-slate-200 bg-white p-1"><button
-                            id="minusQty"
+                            id="minusQty" type="button"
                             class="grid h-9 w-9 place-items-center rounded-lg hover:bg-slate-100">−</button><span
                             id="quantity" class="w-10 text-center text-sm font-bold">1</span><button id="plusQty"
+                            type="button"
                             class="grid h-9 w-9 place-items-center rounded-lg hover:bg-slate-100">+</button></div>
+                    <p id="variantStockText" class="mt-2 text-xs font-semibold text-slate-400">Pilih kapasitas dan warna
+                        untuk melihat stok.</p>
                 </div>
                 <button id="orderButton" data-name="{{ $product['name'] }}" data-price="{{ $product['price'] }}"
                     data-wa="6281234567890"
@@ -151,7 +150,7 @@
     <footer class="mt-20 bg-slate-950 py-10 text-center text-sm text-slate-400">© {{ date('Y') }} SecondByMePhone.
         Unit berkualitas, transaksi lebih aman.</footer>
     <script>
-        window.productVariants = @json($product->variants->where('is_active', true)->values());
+        window.productVariants = @json($availableVariants);
     </script>
 </body>
 
