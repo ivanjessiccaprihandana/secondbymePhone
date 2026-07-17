@@ -1,19 +1,149 @@
-const menuButton=document.querySelector('#menuButton'),mobileMenu=document.querySelector('#mobileMenu');
-menuButton?.addEventListener('click',()=>{const open=!mobileMenu.classList.contains('hidden');mobileMenu.classList.toggle('hidden');menuButton.setAttribute('aria-expanded',String(!open))});
-mobileMenu?.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>mobileMenu.classList.add('hidden')));
+const menuButton = document.querySelector('#menuButton'),
+    mobileMenu = document.querySelector('#mobileMenu');
+menuButton?.addEventListener('click', () => {
+    const open = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden');
+    menuButton.setAttribute('aria-expanded', String(!open));
+});
+mobileMenu
+    ?.querySelectorAll('a')
+    .forEach((link) => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-const sellPhoneForm=document.querySelector('#sellPhoneForm');
-sellPhoneForm?.addEventListener('submit',event=>{event.preventDefault();const val=id=>document.querySelector(id).value;const accessories=[...document.querySelectorAll('input[name="accessories"]:checked')].map(i=>i.value).join(', ')||'-';const message=`Halo SecondByMePhone, saya ingin menjual iPhone:\n\nNama: ${val('#sellerName')}\nSeri: ${val('#phoneSeries')}\nKapasitas: ${val('#sellStorage')}\nBattery Health: ${val('#batteryHealth')}%\nKondisi: ${val('#condition')}\nKelengkapan: ${accessories}\nMinus/Catatan: ${val('#issueNotes')||'-'}\nHarga yang diharapkan: ${val('#expectedPrice')||'-'}`;window.open(`https://wa.me/6281222621419?text=${encodeURIComponent(message)}`,'_blank')});
+const sellPhoneForm = document.querySelector('#sellPhoneForm');
+sellPhoneForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const val = (id) => document.querySelector(id).value;
+    const accessories =
+        [...document.querySelectorAll('input[name="accessories"]:checked')].map((i) => i.value).join(', ') || '-';
+    const message = `Halo SecondByMePhone, saya ingin menjual iPhone:\n\nNama: ${val('#sellerName')}\nSeri: ${val('#phoneSeries')}\nKapasitas: ${val('#sellStorage')}\nBattery Health: ${val('#batteryHealth')}%\nKondisi: ${val('#condition')}\nKelengkapan: ${accessories}\nMinus/Catatan: ${val('#issueNotes') || '-'}\nHarga yang diharapkan: ${val('#expectedPrice') || '-'}`;
+    window.open(`https://wa.me/6281222621419?text=${encodeURIComponent(message)}`, '_blank');
+});
 
-document.querySelectorAll('.gallery-thumb').forEach(button=>button.addEventListener('click',()=>{const image=document.querySelector('#mainImage');if(!image)return;image.src=button.dataset.image;document.querySelectorAll('.gallery-thumb').forEach(i=>i.classList.remove('border-blue-600'));button.classList.add('border-blue-600')}));
+document.querySelectorAll('.gallery-thumb').forEach((button) =>
+    button.addEventListener('click', () => {
+        const image = document.querySelector('#mainImage');
+        if (!image) return;
+        image.src = button.dataset.image;
+        document.querySelectorAll('.gallery-thumb').forEach((i) => i.classList.remove('border-blue-600'));
+        button.classList.add('border-blue-600');
+    }),
+);
 
-const orderButton=document.querySelector('#orderButton');
-if(orderButton){
- const variants=window.productVariants||[],capacityBox=document.querySelector('.capacity-option')?.parentElement,colorBox=document.querySelector('.color-option')?.parentElement,colorLabel=document.querySelector('#selectedColor'),priceLabel=document.querySelector('h1.text-3xl')?.nextElementSibling,stockBadge=document.querySelector('#mainImage')?.parentElement.querySelector('span'),qtyLabel=document.querySelector('#quantity'),warning=document.querySelector('#selectionWarning');let selected=null,qty=1;
- const colors={Black:'#111827',White:'#f8fafc','Space Gray':'#4b5563',Silver:'#d1d5db',Gold:'#d4af77',Midnight:'#172033',Starlight:'#f4eadc',Blue:'#3b82f6','Sierra Blue':'#9bb5ce','Pacific Blue':'#1f4e6d',Purple:'#8b5cf6','Deep Purple':'#4c3b5c',Pink:'#f9a8d4',Red:'#ef4444',Green:'#4d7c65',Yellow:'#facc15',Coral:'#ff7f66','Midnight Green':'#405b52','Natural Titanium':'#a89f91','Blue Titanium':'#45566b','White Titanium':'#d6d3ce','Black Titanium':'#343434'},money=n=>`Rp ${Number(n).toLocaleString('id-ID')}`;
- function choose(v){selected=v;qty=1;qtyLabel.textContent=1;colorLabel.textContent=`— ${v.color}`;priceLabel.textContent=money(v.price);stockBadge.textContent=v.stock?`Stok ${v.stock}`:'Stok Habis';orderButton.disabled=v.stock<1;orderButton.classList.toggle('opacity-50',v.stock<1);warning?.classList.add('hidden')}
- function showColors(storage){colorBox.innerHTML='';const matches=variants.filter(v=>v.storage===storage);matches.forEach(v=>{const b=document.createElement('button');b.type='button';b.title=`${v.color} — stok ${v.stock}`;b.className='color-option h-10 w-10 rounded-full border-4 border-white shadow ring-1 ring-slate-200';b.style.backgroundColor=colors[v.color]||'#64748b';b.onclick=()=>{colorBox.querySelectorAll('button').forEach(x=>x.classList.remove('ring-2','ring-blue-600','ring-offset-2'));b.classList.add('ring-2','ring-blue-600','ring-offset-2');choose(v)};colorBox.append(b)});const preferredIndex=Math.max(0,matches.findIndex(v=>v.stock>0));colorBox.children[preferredIndex]?.click()}
- if(variants.length&&capacityBox&&colorBox){const capacitySection=capacityBox.closest('.mt-7'),colorSection=colorBox.closest('.mt-7');capacitySection?.querySelector('p')?.replaceChildren('1. Pilih kapasitas');const colorTitle=colorSection?.querySelector('p');if(colorTitle){colorTitle.firstChild.textContent='2. Pilih warna ';}if(capacitySection&&colorSection)colorSection.before(capacitySection);capacityBox.innerHTML='';[...new Set(variants.map(v=>v.storage))].forEach(storage=>{const b=document.createElement('button');b.type='button';b.textContent=storage;b.className='capacity-option rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold';b.onclick=()=>{capacityBox.querySelectorAll('button').forEach(x=>x.classList.remove('border-blue-600','bg-blue-50','text-blue-700'));b.classList.add('border-blue-600','bg-blue-50','text-blue-700');selected=null;colorLabel.textContent='— pilih warna';showColors(storage)};capacityBox.append(b)});capacityBox.firstElementChild?.click()}
- document.querySelector('#minusQty')?.addEventListener('click',()=>{qty=Math.max(1,qty-1);qtyLabel.textContent=qty});document.querySelector('#plusQty')?.addEventListener('click',()=>{qty=Math.min(selected?.stock||1,qty+1);qtyLabel.textContent=qty});
- orderButton.addEventListener('click',()=>{if(!selected){warning?.classList.remove('hidden');return}const message=`Halo SecondByMePhone, saya ingin memesan:\n\nProduk: ${orderButton.dataset.name}\nKapasitas: ${selected.storage}\nWarna: ${selected.color}\nHarga: ${money(selected.price)}\nJumlah: ${qty}`;window.open(`https://wa.me/6281222621419?text=${encodeURIComponent(message)}`,'_blank')});
+const orderButton = document.querySelector('#orderButton');
+if (orderButton) {
+    const variants = window.productVariants || [],
+        capacityBox = document.querySelector('.capacity-option')?.parentElement,
+        colorBox = document.querySelector('.color-option')?.parentElement,
+        colorLabel = document.querySelector('#selectedColor'),
+        priceLabel = document.querySelector('h1.text-3xl')?.nextElementSibling,
+        stockBadge = document.querySelector('#mainImage')?.parentElement.querySelector('span'),
+        qtyLabel = document.querySelector('#quantity'),
+        warning = document.querySelector('#selectionWarning');
+    let selected = null,
+        qty = 1;
+    const colors = {
+            Black: '#111827',
+            White: '#f8fafc',
+            'Space Gray': '#4b5563',
+            Silver: '#d1d5db',
+            Gold: '#d4af77',
+            Midnight: '#172033',
+            Starlight: '#f4eadc',
+            Blue: '#3b82f6',
+            'Sierra Blue': '#9bb5ce',
+            'Pacific Blue': '#1f4e6d',
+            Purple: '#8b5cf6',
+            'Deep Purple': '#4c3b5c',
+            Pink: '#f9a8d4',
+            Red: '#ef4444',
+            Green: '#4d7c65',
+            Yellow: '#facc15',
+            Coral: '#ff7f66',
+            'Midnight Green': '#405b52',
+            'Natural Titanium': '#a89f91',
+            'Blue Titanium': '#45566b',
+            'White Titanium': '#d6d3ce',
+            'Black Titanium': '#343434',
+        },
+        money = (n) => `Rp ${Number(n).toLocaleString('id-ID')}`;
+    function choose(v) {
+        selected = v;
+        qty = 1;
+        qtyLabel.textContent = 1;
+        colorLabel.textContent = `— ${v.color}`;
+        priceLabel.textContent = money(v.price);
+        stockBadge.textContent = v.stock ? `Stok ${v.stock}` : 'Stok Habis';
+        orderButton.disabled = v.stock < 1;
+        orderButton.classList.toggle('opacity-50', v.stock < 1);
+        warning?.classList.add('hidden');
+    }
+    function showColors(storage) {
+        colorBox.innerHTML = '';
+        const matches = variants.filter((v) => v.storage === storage);
+        matches.forEach((v) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.title = `${v.color} — stok ${v.stock}`;
+            b.className = 'color-option h-10 w-10 rounded-full border-4 border-white shadow ring-1 ring-slate-200';
+            b.style.backgroundColor = colors[v.color] || '#64748b';
+            b.onclick = () => {
+                colorBox
+                    .querySelectorAll('button')
+                    .forEach((x) => x.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2'));
+                b.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
+                choose(v);
+            };
+            colorBox.append(b);
+        });
+        const preferredIndex = Math.max(
+            0,
+            matches.findIndex((v) => v.stock > 0),
+        );
+        colorBox.children[preferredIndex]?.click();
+    }
+    if (variants.length && capacityBox && colorBox) {
+        const capacitySection = capacityBox.closest('.mt-7'),
+            colorSection = colorBox.closest('.mt-7');
+        capacitySection?.querySelector('p')?.replaceChildren('1. Pilih kapasitas');
+        const colorTitle = colorSection?.querySelector('p');
+        if (colorTitle) {
+            colorTitle.firstChild.textContent = '2. Pilih warna ';
+        }
+        if (capacitySection && colorSection) colorSection.before(capacitySection);
+        capacityBox.innerHTML = '';
+        [...new Set(variants.map((v) => v.storage))].forEach((storage) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.textContent = storage;
+            b.className =
+                'capacity-option rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold';
+            b.onclick = () => {
+                capacityBox
+                    .querySelectorAll('button')
+                    .forEach((x) => x.classList.remove('border-blue-600', 'bg-blue-50', 'text-blue-700'));
+                b.classList.add('border-blue-600', 'bg-blue-50', 'text-blue-700');
+                selected = null;
+                colorLabel.textContent = '— pilih warna';
+                showColors(storage);
+            };
+            capacityBox.append(b);
+        });
+        capacityBox.firstElementChild?.click();
+    }
+    document.querySelector('#minusQty')?.addEventListener('click', () => {
+        qty = Math.max(1, qty - 1);
+        qtyLabel.textContent = qty;
+    });
+    document.querySelector('#plusQty')?.addEventListener('click', () => {
+        qty = Math.min(selected?.stock || 1, qty + 1);
+        qtyLabel.textContent = qty;
+    });
+    orderButton.addEventListener('click', () => {
+        if (!selected) {
+            warning?.classList.remove('hidden');
+            return;
+        }
+        const message = `Halo SecondByMePhone, saya ingin memesan:\n\nProduk: ${orderButton.dataset.name}\nKapasitas: ${selected.storage}\nWarna: ${selected.color}\nHarga: ${money(selected.price)}\nJumlah: ${qty}`;
+        window.open(`https://wa.me/6281222621419?text=${encodeURIComponent(message)}`, '_blank');
+    });
 }

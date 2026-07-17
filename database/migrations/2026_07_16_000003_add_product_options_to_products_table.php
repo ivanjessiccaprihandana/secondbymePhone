@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
@@ -12,6 +13,7 @@ return new class extends Migration {
             $table->json('available_storages')->nullable()->after('storage');
         });
     }
+
     public function down(): void
     {
         Schema::table('products', fn (Blueprint $table) => $table->dropColumn(['available_colors', 'available_storages']));

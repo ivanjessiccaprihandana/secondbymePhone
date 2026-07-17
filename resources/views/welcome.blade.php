@@ -1,65 +1,317 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
+
 <head>
-    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="SecondByMePhone — iPhone second pilihan, teruji, dan bergaransi.">
     <title>SecondByMePhone — Upgrade Tanpa Ragu</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="bg-[#f4f3ee] text-[#171816] antialiased">
-@php
-    $wa = 'https://wa.me/6281222621419';
-@endphp
+    @php
+        $wa = 'https://wa.me/6281222621419';
+    @endphp
 
-<header class="fixed inset-x-0 top-0 z-50 px-4 pt-4">
-    <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border border-black/5 bg-[#f4f3ee]/90 px-5 shadow-sm backdrop-blur-xl lg:px-7">
-        <a href="#home" class="flex items-center gap-2.5"><span class="grid h-9 w-9 place-items-center rounded-full bg-[#171816] text-[#c8ff46]"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="7" y="2.5" width="10" height="19" rx="3" stroke-width="1.8"/><circle cx="12" cy="18.5" r=".8" fill="currentColor"/></svg></span><span class="text-[17px] font-black tracking-[-.04em]">secondbyme<span class="text-lime-600">.</span></span></a>
-        <div class="hidden items-center gap-7 text-[13px] font-bold md:flex"><a class="transition hover:text-lime-600" href="#home">Beranda</a><a class="transition hover:text-lime-600" href="#produk">Beli iPhone</a><a class="rounded-full bg-[#c8ff46] px-4 py-2 text-black transition hover:bg-lime-300" href="{{ route('sell-iphone') }}">Jual iPhone ke Kami</a><a class="transition hover:text-lime-600" href="#layanan">Kenapa Kami</a><a class="transition hover:text-lime-600" href="#cerita">Testimoni</a><a class="transition hover:text-lime-600" href="#toko">Lokasi</a></div>
-        <a href="{{ $wa }}" target="_blank" class="hidden items-center gap-2 rounded-full bg-[#171816] px-5 py-2.5 text-xs font-black text-white transition hover:bg-lime-500 hover:text-black md:flex"><span class="h-2 w-2 rounded-full bg-[#c8ff46]"></span> Hubungi Admin</a>
-        <button id="menuButton" class="grid h-10 w-10 place-items-center rounded-full bg-black text-white md:hidden" aria-label="Buka menu" aria-expanded="false"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 8h14M5 16h14" stroke-width="2" stroke-linecap="round"/></svg></button>
-    </nav>
-    <div id="mobileMenu" class="mx-auto mt-2 hidden max-w-7xl rounded-2xl bg-[#171816] p-5 text-white shadow-xl md:hidden"><div class="flex flex-col gap-4 text-sm font-bold"><a href="#home">Beranda</a><a href="#produk">Beli iPhone</a><a class="rounded-xl bg-[#c8ff46] p-3 text-center text-black" href="{{ route('sell-iphone') }}">Jual iPhone ke Kami</a><a href="#layanan">Kenapa Kami</a><a href="#cerita">Testimoni</a><a href="#toko">Lokasi</a><a class="text-[#c8ff46]" href="{{ $wa }}">Hubungi Admin →</a></div></div>
-</header>
-
-<main>
-    <section id="home" class="px-4 pb-4 pt-24">
-        <div class="relative mx-auto min-h-[720px] max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#171816] text-white">
-            <div class="absolute inset-0 opacity-70 [background:radial-gradient(circle_at_68%_25%,#4d6321_0,transparent_32%),radial-gradient(circle_at_90%_90%,#273c35_0,transparent_35%)]"></div>
-            <div class="relative grid min-h-[720px] lg:grid-cols-[1.05fr_.95fr]">
-                <div class="flex flex-col justify-between p-7 sm:p-12 lg:p-16">
-                    <div><p class="flex items-center gap-2 text-xs font-black uppercase tracking-[.2em] text-[#c8ff46]"><span class="block h-px w-8 bg-[#c8ff46]"></span> Beli & jual iPhone</p><h1 class="mt-8 max-w-2xl text-5xl font-black leading-[.95] tracking-[-.06em] sm:text-7xl lg:text-[82px]">Upgrade.<br><span class="font-serif italic text-[#c8ff46]">Tanpa ragu.</span></h1><p class="mt-8 max-w-md text-base leading-7 text-white/60">Beli iPhone ready stock seri X sampai 15, atau tawarkan iPhone milikmu kepada kami untuk mendapatkan penawaran harga.</p><div class="mt-9 flex flex-wrap gap-3"><a href="#produk" class="rounded-full bg-[#c8ff46] px-7 py-3.5 text-sm font-black text-black transition hover:scale-105">Beli iPhone</a><a href="{{ route('sell-iphone') }}" class="rounded-full border border-white/20 px-7 py-3.5 text-sm font-black transition hover:bg-white hover:text-black">Jual iPhone ke Kami</a></div></div>
-                    <div class="mt-14 grid grid-cols-3 gap-4 border-t border-white/10 pt-7"><div><strong class="text-2xl font-black">2K+</strong><p class="mt-1 text-xs text-white/40">unit terjual</p></div><div><strong class="text-2xl font-black">4.9</strong><p class="mt-1 text-xs text-white/40">rating pembeli</p></div><div><strong class="text-2xl font-black">30+</strong><p class="mt-1 text-xs text-white/40">titik inspeksi</p></div></div>
-                </div>
-                <div class="relative min-h-[470px] overflow-hidden lg:min-h-full"><div class="absolute inset-x-8 bottom-0 top-8 overflow-hidden rounded-t-[8rem] bg-[#d8dacd] sm:inset-x-14"><img class="h-full w-full object-cover mix-blend-multiply" src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1100&q=90" alt="iPhone pilihan SecondByMePhone"></div><div class="absolute right-7 top-9 rounded-full bg-white px-4 py-2 text-xs font-black text-black shadow-lg">GARANSI 12 BULAN</div><div class="absolute bottom-8 left-6 max-w-44 -rotate-3 rounded-2xl bg-[#c8ff46] p-5 text-black shadow-xl"><p class="text-[10px] font-black uppercase tracking-wider">Setiap unit</p><p class="mt-1 text-xl font-black leading-tight">Dicek. Dinilai. Dijamin.</p></div></div>
+    <header class="fixed inset-x-0 top-0 z-50 px-4 pt-4">
+        <nav
+            class="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-2xl border border-black/5 bg-[#f4f3ee]/90 px-5 shadow-sm backdrop-blur-xl lg:px-7">
+            <a href="#home" class="flex items-center gap-2.5"><span
+                    class="grid h-9 w-9 place-items-center rounded-full bg-[#171816] text-[#c8ff46]"><svg
+                        class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="7" y="2.5" width="10" height="19" rx="3" stroke-width="1.8" />
+                        <circle cx="12" cy="18.5" r=".8" fill="currentColor" />
+                    </svg></span><span class="text-[17px] font-black tracking-[-.04em]">secondbyme<span
+                        class="text-lime-600">.</span></span></a>
+            <div class="hidden items-center gap-6 text-[13px] font-bold md:flex"><a
+                    class="transition hover:text-lime-600" href="#home">Beranda</a><a
+                    class="transition hover:text-lime-600" href="#produk">Beli iPhone</a><a
+                    class="transition hover:text-lime-600" href="{{ route('preorder') }}">Preorder</a><a
+                    class="rounded-full bg-[#c8ff46] px-4 py-2 text-black transition hover:bg-lime-300"
+                    href="{{ route('sell-iphone') }}">Jual iPhone ke Kami</a><a class="transition hover:text-lime-600"
+                    href="#layanan">Kenapa Kami</a><a class="transition hover:text-lime-600" href="#toko">Lokasi</a>
+            </div>
+            <a href="{{ $wa }}" target="_blank"
+                class="hidden items-center gap-2 rounded-full bg-[#171816] px-5 py-2.5 text-xs font-black text-white transition hover:bg-lime-500 hover:text-black md:flex"><span
+                    class="h-2 w-2 rounded-full bg-[#c8ff46]"></span> Hubungi Admin</a>
+            <button id="menuButton" class="grid h-10 w-10 place-items-center rounded-full bg-black text-white md:hidden"
+                aria-label="Buka menu" aria-expanded="false"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor">
+                    <path d="M5 8h14M5 16h14" stroke-width="2" stroke-linecap="round" />
+                </svg></button>
+        </nav>
+        <div id="mobileMenu"
+            class="mx-auto mt-2 hidden max-w-7xl rounded-2xl bg-[#171816] p-5 text-white shadow-xl md:hidden">
+            <div class="flex flex-col gap-4 text-sm font-bold"><a href="#home">Beranda</a><a href="#produk">Beli
+                    iPhone</a><a href="{{ route('preorder') }}">Preorder HP</a><a
+                    class="rounded-xl bg-[#c8ff46] p-3 text-center text-black" href="{{ route('sell-iphone') }}">Jual
+                    iPhone ke Kami</a><a href="#layanan">Kenapa Kami</a><a href="#cerita">Testimoni</a><a
+                    href="#toko">Lokasi</a><a class="text-[#c8ff46]" href="{{ $wa }}">Hubungi Admin →</a>
             </div>
         </div>
-    </section>
+    </header>
 
-    <section class="overflow-hidden py-5"><div class="flex min-w-max items-center gap-8 bg-[#c8ff46] py-4 text-sm font-black uppercase tracking-widest text-black"><span>Original Unit</span><b>✦</b><span>Garansi Tertulis</span><b>✦</b><span>Harga Transparan</span><b>✦</b><span>Quality Checked</span><b>✦</b><span>Pengiriman Indonesia</span><b>✦</b><span>Original Unit</span><b>✦</b><span>Garansi Tertulis</span></div></section>
+    <main>
+        <section id="home" class="px-4 pb-4 pt-24">
+            <div
+                class="relative mx-auto min-h-[720px] max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#171816] text-white">
+                <div
+                    class="absolute inset-0 opacity-70 [background:radial-gradient(circle_at_68%_25%,#4d6321_0,transparent_32%),radial-gradient(circle_at_90%_90%,#273c35_0,transparent_35%)]">
+                </div>
+                <div class="relative grid min-h-[720px] lg:grid-cols-[1.05fr_.95fr]">
+                    <div class="flex flex-col justify-between p-7 sm:p-12 lg:p-16">
+                        <div>
+                            <p
+                                class="flex items-center gap-2 text-xs font-black uppercase tracking-[.2em] text-[#c8ff46]">
+                                <span class="block h-px w-8 bg-[#c8ff46]"></span> Beli & jual iPhone
+                            </p>
+                            <h1
+                                class="mt-8 max-w-2xl text-5xl font-black leading-[.95] tracking-[-.06em] sm:text-7xl lg:text-[82px]">
+                                Upgrade.<br><span class="font-serif italic text-[#c8ff46]">Tanpa ragu.</span></h1>
+                            <p class="mt-8 max-w-md text-base leading-7 text-white/60">Beli iPhone ready stock seri X
+                                sampai 15, atau tawarkan iPhone milikmu kepada kami untuk mendapatkan penawaran harga.
+                            </p>
+                            <div class="mt-9 flex flex-wrap gap-3"><a href="#produk"
+                                    class="rounded-full bg-[#c8ff46] px-7 py-3.5 text-sm font-black text-black transition hover:scale-105">Beli
+                                    iPhone</a><a href="{{ route('sell-iphone') }}"
+                                    class="rounded-full border border-white/20 px-7 py-3.5 text-sm font-black transition hover:bg-white hover:text-black">Jual
+                                    iPhone ke Kami</a></div>
+                        </div>
+                        <div class="mt-14 grid grid-cols-3 gap-4 border-t border-white/10 pt-7">
+                            <div><strong class="text-2xl font-black">2K+</strong>
+                                <p class="mt-1 text-xs text-white/40">unit terjual</p>
+                            </div>
+                            <div><strong class="text-2xl font-black">4.9</strong>
+                                <p class="mt-1 text-xs text-white/40">rating pembeli</p>
+                            </div>
+                            <div><strong class="text-2xl font-black">30+</strong>
+                                <p class="mt-1 text-xs text-white/40">titik inspeksi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative min-h-[470px] overflow-hidden lg:min-h-full">
+                        <div
+                            class="absolute inset-x-8 bottom-0 top-8 overflow-hidden rounded-t-[8rem] bg-[#d8dacd] sm:inset-x-14">
+                            <img class="h-full w-full object-cover mix-blend-multiply"
+                                src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1100&q=90"
+                                alt="iPhone pilihan SecondByMePhone">
+                        </div>
+                        <div
+                            class="absolute right-7 top-9 rounded-full bg-white px-4 py-2 text-xs font-black text-black shadow-lg">
+                            GARANSI 12 BULAN</div>
+                        <div
+                            class="absolute bottom-8 left-6 max-w-44 -rotate-3 rounded-2xl bg-[#c8ff46] p-5 text-black shadow-xl">
+                            <p class="text-[10px] font-black uppercase tracking-wider">Setiap unit</p>
+                            <p class="mt-1 text-xl font-black leading-tight">Dicek. Dinilai. Dijamin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="layanan" class="mx-auto max-w-7xl px-5 py-24 lg:px-8"><div class="grid gap-12 lg:grid-cols-[.75fr_1.25fr]"><div><p class="text-xs font-black uppercase tracking-[.2em] text-lime-700">Bukan sekadar jual beli</p><h2 class="mt-5 text-4xl font-black leading-tight tracking-[-.05em] sm:text-5xl">Rasa aman di setiap langkah.</h2><p class="mt-5 max-w-sm leading-7 text-black/50">Kami membuat pengalaman membeli ponsel second terasa sesederhana membeli ponsel baru.</p></div><div class="grid gap-4 sm:grid-cols-2">
-        <article class="rounded-[2rem] bg-white p-7"><span class="grid h-12 w-12 place-items-center rounded-full bg-[#171816] text-[#c8ff46]"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m8 12 2.5 2.5L16 8.5" stroke-width="2" stroke-linecap="round"/><path d="M12 3 5 6v5c0 4.6 2.9 8.5 7 10 4.1-1.5 7-5.4 7-10V6l-7-3Z" stroke-width="1.7"/></svg></span><p class="mt-8 text-xs font-black text-black/30">01</p><h3 class="mt-2 text-xl font-black">Inspeksi menyeluruh</h3><p class="mt-3 text-sm leading-6 text-black/50">Fungsi, fisik, kamera, layar, baterai, dan konektivitas diperiksa teknisi.</p></article>
-        <article class="rounded-[2rem] bg-[#ddd9ff] p-7"><span class="grid h-12 w-12 place-items-center rounded-full bg-violet-700 text-white"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 4h10v16l-5-3-5 3V4Z" stroke-width="1.8"/><path d="M9.5 8h5" stroke-width="1.8"/></svg></span><p class="mt-8 text-xs font-black text-black/30">02</p><h3 class="mt-2 text-xl font-black">Garansi yang jelas</h3><p class="mt-3 text-sm leading-6 text-black/50">Garansi toko 12 bulan dengan dukungan admin setelah transaksi.</p></article>
-        <article class="rounded-[2rem] bg-[#ffd8b5] p-7"><span class="grid h-12 w-12 place-items-center rounded-full bg-orange-600 text-white"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7" stroke-width="1.8"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><p class="mt-8 text-xs font-black text-black/30">03</p><h3 class="mt-2 text-xl font-black">Kirim dengan aman</h3><p class="mt-3 text-sm leading-6 text-black/50">Packing berlapis dan pengiriman terlacak ke seluruh Indonesia.</p></article>
-        <article class="rounded-[2rem] bg-[#171816] p-7 text-white"><span class="grid h-12 w-12 place-items-center rounded-full bg-[#c8ff46] text-black"><svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16v12H4zM8 10h8M8 14h4" stroke-width="1.8"/></svg></span><p class="mt-8 text-xs font-black text-white/30">04</p><h3 class="mt-2 text-xl font-black">Harga transparan</h3><p class="mt-3 text-sm leading-6 text-white/50">Tidak ada biaya tersembunyi. Harga sesuai kondisi unit yang kamu pilih.</p></article>
-    </div></div></section>
+        <section class="overflow-hidden py-5">
+            <div
+                class="flex min-w-max items-center gap-8 bg-[#c8ff46] py-4 text-sm font-black uppercase tracking-widest text-black">
+                <span>Original Unit</span><b>✦</b><span>Garansi Tertulis</span><b>✦</b><span>Harga
+                    Transparan</span><b>✦</b><span>Quality Checked</span><b>✦</b><span>Pengiriman
+                    Indonesia</span><b>✦</b><span>Original Unit</span><b>✦</b><span>Garansi Tertulis</span>
+            </div>
+        </section>
 
-    <section id="produk" class="bg-[#171816] py-24 text-white"><div class="mx-auto max-w-7xl px-5 lg:px-8"><div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><p class="text-xs font-black uppercase tracking-[.2em] text-[#c8ff46]">Khusus iPhone</p><h2 class="mt-4 text-4xl font-black tracking-[-.05em] sm:text-6xl">Ready stock.</h2></div><p class="max-w-xs text-sm leading-6 text-white/45">iPhone seri X sampai 15. Pilih warna, kapasitas, dan jumlah pada halaman detail produk.</p></div>
-        <div class="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">@forelse($products as $product)<article class="group overflow-hidden rounded-[1.5rem] bg-[#262724] p-2 transition hover:bg-[#30312d]"><a href="{{ route('products.show',$product) }}" class="relative block overflow-hidden rounded-[1.1rem] bg-[#e8e7e1]"><span class="absolute left-3 top-3 z-10 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-black">Stok {{ $product->stock }}</span><img class="aspect-[.9] w-full object-cover transition duration-700 group-hover:scale-105" src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy"></a><div class="p-3"><div class="flex items-start justify-between gap-2"><div><h3 class="text-sm font-black">{{ $product->name }}</h3><p class="mt-1 text-[11px] text-white/40">{{ $product->storage }} · {{ $product->color }}</p></div><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-white/20 text-sm transition group-hover:bg-[#c8ff46] group-hover:text-black">↗</span></div><p class="mt-5 text-sm font-black text-[#c8ff46]">Rp {{ number_format($product->price,0,',','.') }}</p><a href="{{ route('products.show',$product) }}" class="mt-3 block rounded-full border border-white/10 py-2 text-center text-[10px] font-black uppercase tracking-wider transition hover:border-[#c8ff46]">Lihat & pilih</a></div></article>@empty<p class="col-span-full rounded-2xl border border-white/10 p-8 text-center text-white/50">Belum ada produk ready stock.</p>@endforelse</div>
-    </div></section>
+        <section id="layanan" class="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+            <div class="grid gap-12 lg:grid-cols-[.75fr_1.25fr]">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-[.2em] text-lime-700">Bukan sekadar jual beli</p>
+                    <h2 class="mt-5 text-4xl font-black leading-tight tracking-[-.05em] sm:text-5xl">Rasa aman di
+                        setiap langkah.</h2>
+                    <p class="mt-5 max-w-sm leading-7 text-black/50">Kami membuat pengalaman membeli ponsel second
+                        terasa sesederhana membeli ponsel baru.</p>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <article class="rounded-[2rem] bg-white p-7"><span
+                            class="grid h-12 w-12 place-items-center rounded-full bg-[#171816] text-[#c8ff46]"><svg
+                                class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="m8 12 2.5 2.5L16 8.5" stroke-width="2" stroke-linecap="round" />
+                                <path d="M12 3 5 6v5c0 4.6 2.9 8.5 7 10 4.1-1.5 7-5.4 7-10V6l-7-3Z"
+                                    stroke-width="1.7" />
+                            </svg></span>
+                        <p class="mt-8 text-xs font-black text-black/30">01</p>
+                        <h3 class="mt-2 text-xl font-black">Inspeksi menyeluruh</h3>
+                        <p class="mt-3 text-sm leading-6 text-black/50">Fungsi, fisik, kamera, layar, baterai, dan
+                            konektivitas diperiksa teknisi.</p>
+                    </article>
+                    <article class="rounded-[2rem] bg-[#ddd9ff] p-7"><span
+                            class="grid h-12 w-12 place-items-center rounded-full bg-violet-700 text-white"><svg
+                                class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M7 4h10v16l-5-3-5 3V4Z" stroke-width="1.8" />
+                                <path d="M9.5 8h5" stroke-width="1.8" />
+                            </svg></span>
+                        <p class="mt-8 text-xs font-black text-black/30">02</p>
+                        <h3 class="mt-2 text-xl font-black">Garansi yang jelas</h3>
+                        <p class="mt-3 text-sm leading-6 text-black/50">Garansi toko 12 bulan dengan dukungan admin
+                            setelah transaksi.</p>
+                    </article>
+                    <article class="rounded-[2rem] bg-[#ffd8b5] p-7"><span
+                            class="grid h-12 w-12 place-items-center rounded-full bg-orange-600 text-white"><svg
+                                class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M3 6h11v11H3zM14 10h4l3 3v4h-7" stroke-width="1.8" />
+                                <circle cx="7" cy="18" r="2" />
+                                <circle cx="17" cy="18" r="2" />
+                            </svg></span>
+                        <p class="mt-8 text-xs font-black text-black/30">03</p>
+                        <h3 class="mt-2 text-xl font-black">Kirim dengan aman</h3>
+                        <p class="mt-3 text-sm leading-6 text-black/50">Packing berlapis dan pengiriman terlacak ke
+                            seluruh Indonesia.</p>
+                    </article>
+                    <article class="rounded-[2rem] bg-[#171816] p-7 text-white"><span
+                            class="grid h-12 w-12 place-items-center rounded-full bg-[#c8ff46] text-black"><svg
+                                class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M4 6h16v12H4zM8 10h8M8 14h4" stroke-width="1.8" />
+                            </svg></span>
+                        <p class="mt-8 text-xs font-black text-white/30">04</p>
+                        <h3 class="mt-2 text-xl font-black">Harga transparan</h3>
+                        <p class="mt-3 text-sm leading-6 text-white/50">Tidak ada biaya tersembunyi. Harga sesuai
+                            kondisi unit yang kamu pilih.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-    <section id="cerita" class="mx-auto max-w-7xl px-5 py-24 lg:px-8"><div class="text-center"><p class="text-xs font-black uppercase tracking-[.2em] text-lime-700">Cerita nyata</p><h2 class="mt-4 text-4xl font-black tracking-[-.05em] sm:text-5xl">Mereka sudah upgrade.</h2></div><div class="mt-12 grid gap-5 lg:grid-cols-3">
-        @foreach([['“Unitnya lebih mulus dari ekspektasi. Admin jelasin kondisi dengan jujur sebelum saya transfer.”','Nadia P.','Jakarta','https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=80'],['“Pilih warna dan storage gampang. Pesan WhatsApp-nya langsung lengkap, prosesnya cepat banget.”','Rizky A.','Bandung','https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=800&q=80'],['“Packing aman, battery health sesuai, garansi juga tertulis. Pasti balik lagi buat upgrade.”','Alya S.','Surabaya','https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=800&q=80']] as $review)
-        <article class="overflow-hidden rounded-[2rem] bg-white"><img class="h-56 w-full object-cover" src="{{ $review[3] }}" alt="Review {{ $review[1] }}" loading="lazy"><div class="p-7"><p class="text-[#8dad2d]">★★★★★</p><blockquote class="mt-4 text-lg font-bold leading-7 tracking-tight">{{ $review[0] }}</blockquote><div class="mt-6 flex items-center justify-between border-t border-black/10 pt-5"><p class="text-sm font-black">{{ $review[1] }}</p><p class="text-xs text-black/40">{{ $review[2] }}</p></div></div></article>@endforeach
-    </div></section>
+        <section id="produk" class="bg-[#171816] py-24 text-white">
+            <div class="mx-auto max-w-7xl px-5 lg:px-8">
+                <div class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[.2em] text-[#c8ff46]">Khusus iPhone</p>
+                        <h2 class="mt-4 text-4xl font-black tracking-[-.05em] sm:text-6xl">Ready stock.</h2>
+                    </div>
+                    <p class="max-w-xs text-sm leading-6 text-white/45">iPhone seri X sampai 15. Pilih warna,
+                        kapasitas, dan jumlah pada halaman detail produk.</p>
+                </div>
+                <div class="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+                    @forelse($products as $product)
+                        <article
+                            class="group overflow-hidden rounded-[1.5rem] bg-[#262724] p-2 transition hover:bg-[#30312d]">
+                            <a href="{{ route('products.show', $product) }}"
+                                class="relative block overflow-hidden rounded-[1.1rem] bg-[#e8e7e1]"><span
+                                    class="absolute left-3 top-3 z-10 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-black">Stok
+                                    {{ $product->stock }}</span><img
+                                    class="aspect-[.9] w-full object-cover transition duration-700 group-hover:scale-105"
+                                    src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy"></a>
+                            <div class="p-3">
+                                <div class="flex items-start justify-between gap-2">
+                                    <div>
+                                        <h3 class="text-sm font-black">{{ $product->name }}</h3>
+                                        <p class="mt-1 text-[11px] text-white/40">{{ $product->storage }} ·
+                                            {{ $product->color }}</p>
+                                    </div><span
+                                        class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-white/20 text-sm transition group-hover:bg-[#c8ff46] group-hover:text-black">↗</span>
+                                </div>
+                                <p class="mt-5 text-sm font-black text-[#c8ff46]">Rp
+                                    {{ number_format($product->price, 0, ',', '.') }}</p><a
+                                    href="{{ route('products.show', $product) }}"
+                                    class="mt-3 block rounded-full border border-white/10 py-2 text-center text-[10px] font-black uppercase tracking-wider transition hover:border-[#c8ff46]">Lihat
+                                    & pilih</a>
+                            </div>
+                    </article>@empty<p
+                            class="col-span-full rounded-2xl border border-white/10 p-8 text-center text-white/50">
+                            Belum ada produk ready stock.</p>
+                    @endforelse
+                </div>
+            </div>
+        </section>
 
-    <section id="toko" class="px-4 pb-4"><div class="mx-auto grid max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#dad7cc] lg:grid-cols-2"><div class="p-8 sm:p-12 lg:p-16"><p class="text-xs font-black uppercase tracking-[.2em] text-black/40">Lokasi kami</p><h2 class="mt-5 text-4xl font-black tracking-[-.05em] sm:text-5xl">Temui kami di Nabire.</h2><p class="mt-5 max-w-md text-base leading-7 text-black/55">Datang untuk konsultasi dan cek langsung unit ready stock pilihanmu.</p><div class="mt-10 rounded-2xl bg-white/60 p-5"><p class="text-xs font-black uppercase tracking-wider text-black/40">Alamat toko</p><p class="mt-2 font-black leading-6">Jl. Jayaraya, Girimulyo, Nabire, Papua Tengah</p></div><a href="{{ $wa }}" target="_blank" class="mt-6 inline-flex rounded-full bg-[#171816] px-6 py-3 text-sm font-black text-white">Tanya lokasi via WhatsApp →</a></div><img class="min-h-80 h-full w-full object-cover" src="{{ asset('images/iphone-store-interior.png') }}" alt="Interior toko iPhone SecondByMePhone Nabire" loading="lazy"></div></section>
+        <section id="cerita" class="mx-auto max-w-7xl px-5 py-24 lg:px-8">
+            <div class="text-center">
+                <p class="text-xs font-black uppercase tracking-[.2em] text-lime-700">Cerita nyata</p>
+                <h2 class="mt-4 text-4xl font-black tracking-[-.05em] sm:text-5xl">Mereka sudah upgrade.</h2>
+            </div>
+            <div class="mt-12 grid gap-5 lg:grid-cols-3">
+                @foreach ([['“Unitnya lebih mulus dari ekspektasi. Admin jelasin kondisi dengan jujur sebelum saya transfer.”', 'Nadia P.', 'Jakarta', 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=80'], ['“Pilih warna dan storage gampang. Pesan WhatsApp-nya langsung lengkap, prosesnya cepat banget.”', 'Rizky A.', 'Bandung', 'https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=800&q=80'], ['“Packing aman, battery health sesuai, garansi juga tertulis. Pasti balik lagi buat upgrade.”', 'Alya S.', 'Surabaya', 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=800&q=80']] as $review)
+                    <article class="overflow-hidden rounded-[2rem] bg-white"><img class="h-56 w-full object-cover"
+                            src="{{ $review[3] }}" alt="Review {{ $review[1] }}" loading="lazy">
+                        <div class="p-7">
+                            <p class="text-[#8dad2d]">★★★★★</p>
+                            <blockquote class="mt-4 text-lg font-bold leading-7 tracking-tight">{{ $review[0] }}
+                            </blockquote>
+                            <div class="mt-6 flex items-center justify-between border-t border-black/10 pt-5">
+                                <p class="text-sm font-black">{{ $review[1] }}</p>
+                                <p class="text-xs text-black/40">{{ $review[2] }}</p>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </section>
 
-    <section class="px-4 py-20"><div class="mx-auto flex max-w-5xl flex-col items-center rounded-[2.5rem] bg-[#c8ff46] px-6 py-16 text-center"><p class="text-xs font-black uppercase tracking-[.2em]">Masih belum yakin?</p><h2 class="mt-5 max-w-2xl text-4xl font-black leading-tight tracking-[-.05em] sm:text-6xl">Ceritakan budgetmu. Kami bantu pilihkan.</h2><a href="{{ $wa }}" target="_blank" class="mt-8 flex items-center gap-3 rounded-full bg-[#171816] px-7 py-4 text-sm font-black text-white transition hover:scale-105"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.84 9.84 0 0 0-8.4 14.96L2 22l5.2-1.62A9.98 9.98 0 1 0 12.04 2Zm5.78 14.1c-.24.68-1.4 1.3-1.94 1.38-.5.1-1.14.14-1.84-.08-.42-.14-.96-.32-1.66-.62-2.92-1.26-4.82-4.2-4.96-4.4-.14-.2-1.18-1.56-1.18-2.98s.74-2.12 1-2.42c.26-.28.56-.36.76-.36h.54c.18 0 .4-.06.62.48.24.58.82 2 .9 2.14.08.14.12.3.02.5-.08.2-.14.32-.28.48-.14.16-.3.36-.42.48-.14.14-.28.28-.12.56.16.28.7 1.16 1.5 1.88 1.04.92 1.9 1.2 2.18 1.34.28.14.44.12.6-.08.18-.2.76-.88.96-1.18.2-.28.4-.24.68-.14.28.1 1.76.84 2.06.98.3.16.5.22.58.34.08.12.08.7-.16 1.4Z"/></svg>Mulai chat WhatsApp</a></div></section>
-</main>
+        <section id="toko" class="px-4 pb-4">
+            <div class="mx-auto grid max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#dad7cc] lg:grid-cols-2">
+                <div class="p-8 sm:p-12 lg:p-16">
+                    <p class="text-xs font-black uppercase tracking-[.2em] text-black/40">Lokasi kami</p>
+                    <h2 class="mt-5 text-4xl font-black tracking-[-.05em] sm:text-5xl">Temui kami di Nabire.</h2>
+                    <p class="mt-5 max-w-md text-base leading-7 text-black/55">Datang untuk konsultasi dan cek langsung
+                        unit ready stock pilihanmu.</p>
+                    <div class="mt-10 rounded-2xl bg-white/60 p-5">
+                        <p class="text-xs font-black uppercase tracking-wider text-black/40">Alamat toko</p>
+                        <p class="mt-2 font-black leading-6">Jl. Jayaraya, Girimulyo, Nabire, Papua Tengah</p>
+                    </div><a href="{{ $wa }}" target="_blank"
+                        class="mt-6 inline-flex rounded-full bg-[#171816] px-6 py-3 text-sm font-black text-white">Tanya
+                        lokasi via WhatsApp →</a>
+                </div><img class="min-h-80 h-full w-full object-cover"
+                    src="{{ asset('images/iphone-store-interior.png') }}"
+                    alt="Interior toko iPhone SecondByMePhone Nabire" loading="lazy">
+            </div>
+        </section>
 
-<footer class="bg-[#171816] px-5 py-14 text-white lg:px-8"><div class="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4"><div class="lg:col-span-2"><p class="text-2xl font-black tracking-[-.05em]">secondbyme<span class="text-[#c8ff46]">.</span></p><p class="mt-4 max-w-sm text-sm leading-6 text-white/40">Beli iPhone ready stock atau jual iPhone milikmu kepada kami di Nabire.</p></div><div><p class="text-xs font-black uppercase tracking-wider text-white/30">Transaksi</p><div class="mt-4 flex flex-col gap-3 text-sm font-bold"><a href="#produk">Beli iPhone</a><a href="{{ route('sell-iphone') }}">Jual iPhone ke Kami</a><a href="#cerita">Testimoni</a><a href="#toko">Lokasi</a></div></div><div><p class="text-xs font-black uppercase tracking-wider text-white/30">Kontak</p><div class="mt-4 space-y-3 text-sm"><p>0812-2262-1419</p><p>Jl. Jayaraya, Girimulyo, Nabire</p></div></div></div><div class="mx-auto mt-12 flex max-w-7xl flex-col justify-between gap-3 border-t border-white/10 pt-6 text-[11px] text-white/30 sm:flex-row"><p>© {{ date('Y') }} SecondByMePhone</p><p>Quality checked · Warranty included</p></div></footer>
+        <section class="px-4 py-20">
+            <div
+                class="mx-auto flex max-w-5xl flex-col items-center rounded-[2.5rem] bg-[#c8ff46] px-6 py-16 text-center">
+                <p class="text-xs font-black uppercase tracking-[.2em]">Masih belum yakin?</p>
+                <h2 class="mt-5 max-w-2xl text-4xl font-black leading-tight tracking-[-.05em] sm:text-6xl">Ceritakan
+                    budgetmu. Kami bantu pilihkan.</h2><a href="{{ $wa }}" target="_blank"
+                    class="mt-8 flex items-center gap-3 rounded-full bg-[#171816] px-7 py-4 text-sm font-black text-white transition hover:scale-105"><svg
+                        class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12.04 2a9.84 9.84 0 0 0-8.4 14.96L2 22l5.2-1.62A9.98 9.98 0 1 0 12.04 2Zm5.78 14.1c-.24.68-1.4 1.3-1.94 1.38-.5.1-1.14.14-1.84-.08-.42-.14-.96-.32-1.66-.62-2.92-1.26-4.82-4.2-4.96-4.4-.14-.2-1.18-1.56-1.18-2.98s.74-2.12 1-2.42c.26-.28.56-.36.76-.36h.54c.18 0 .4-.06.62.48.24.58.82 2 .9 2.14.08.14.12.3.02.5-.08.2-.14.32-.28.48-.14.16-.3.36-.42.48-.14.14-.28.28-.12.56.16.28.7 1.16 1.5 1.88 1.04.92 1.9 1.2 2.18 1.34.28.14.44.12.6-.08.18-.2.76-.88.96-1.18.2-.28.4-.24.68-.14.28.1 1.76.84 2.06.98.3.16.5.22.58.34.08.12.08.7-.16 1.4Z" />
+                    </svg>Mulai chat WhatsApp</a>
+            </div>
+        </section>
+    </main>
 
-<a href="{{ $wa }}" target="_blank" aria-label="Chat WhatsApp" class="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl transition hover:-translate-y-1"><svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.84 9.84 0 0 0-8.4 14.96L2 22l5.2-1.62A9.98 9.98 0 1 0 12.04 2Zm5.78 14.1c-.24.68-1.4 1.3-1.94 1.38-.5.1-1.14.14-1.84-.08-.42-.14-.96-.32-1.66-.62-2.92-1.26-4.82-4.2-4.96-4.4-.14-.2-1.18-1.56-1.18-2.98s.74-2.12 1-2.42c.26-.28.56-.36.76-.36h.54c.18 0 .4-.06.62.48.24.58.82 2 .9 2.14.08.14.12.3.02.5-.08.2-.14.32-.28.48-.14.16-.3.36-.42.48-.14.14-.28.28-.12.56.16.28.7 1.16 1.5 1.88 1.04.92 1.9 1.2 2.18 1.34.28.14.44.12.6-.08.18-.2.76-.88.96-1.18.2-.28.4-.24.68-.14.28.1 1.76.84 2.06.98.3.16.5.22.58.34.08.12.08.7-.16 1.4Z"/></svg></a>
+    <footer class="bg-[#171816] px-5 py-14 text-white lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="lg:col-span-2">
+                <p class="text-2xl font-black tracking-[-.05em]">secondbyme<span class="text-[#c8ff46]">.</span></p>
+                <p class="mt-4 max-w-sm text-sm leading-6 text-white/40">Beli iPhone ready stock, ajukan preorder HP,
+                    atau jual iPhone milikmu kepada kami di Nabire.</p>
+            </div>
+            <div>
+                <p class="text-xs font-black uppercase tracking-wider text-white/30">Transaksi</p>
+                <div class="mt-4 flex flex-col gap-3 text-sm font-bold"><a href="#produk">Beli iPhone</a><a
+                        href="{{ route('preorder') }}">Preorder HP</a><a href="{{ route('sell-iphone') }}">Jual
+                        iPhone ke Kami</a><a href="#cerita">Testimoni</a><a href="#toko">Lokasi</a></div>
+            </div>
+            <div>
+                <p class="text-xs font-black uppercase tracking-wider text-white/30">Kontak</p>
+                <div class="mt-4 space-y-3 text-sm">
+                    <p>0812-2262-1419</p>
+                    <p>Jl. Jayaraya, Girimulyo, Nabire</p>
+                </div>
+            </div>
+        </div>
+        <div
+            class="mx-auto mt-12 flex max-w-7xl flex-col justify-between gap-3 border-t border-white/10 pt-6 text-[11px] text-white/30 sm:flex-row">
+            <p>© {{ date('Y') }} SecondByMePhone</p>
+            <p>Quality checked · Warranty included</p>
+        </div>
+    </footer>
+
+    <a href="{{ $wa }}" target="_blank" aria-label="Chat WhatsApp"
+        class="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-2xl transition hover:-translate-y-1"><svg
+            class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M12.04 2a9.84 9.84 0 0 0-8.4 14.96L2 22l5.2-1.62A9.98 9.98 0 1 0 12.04 2Zm5.78 14.1c-.24.68-1.4 1.3-1.94 1.38-.5.1-1.14.14-1.84-.08-.42-.14-.96-.32-1.66-.62-2.92-1.26-4.82-4.2-4.96-4.4-.14-.2-1.18-1.56-1.18-2.98s.74-2.12 1-2.42c.26-.28.56-.36.76-.36h.54c.18 0 .4-.06.62.48.24.58.82 2 .9 2.14.08.14.12.3.02.5-.08.2-.14.32-.28.48-.14.16-.3.36-.42.48-.14.14-.28.28-.12.56.16.28.7 1.16 1.5 1.88 1.04.92 1.9 1.2 2.18 1.34.28.14.44.12.6-.08.18-.2.76-.88.96-1.18.2-.28.4-.24.68-.14.28.1 1.76.84 2.06.98.3.16.5.22.58.34.08.12.08.7-.16 1.4Z" />
+        </svg></a>
 </body>
+
 </html>

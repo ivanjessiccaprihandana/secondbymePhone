@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ProductVariant extends Model
 {
     protected $fillable = ['storage', 'color', 'price', 'stock', 'is_active'];
-    protected function casts(): array { return ['price'=>'integer','stock'=>'integer','is_active'=>'boolean']; }
-    public function product(): BelongsTo { return $this->belongsTo(Product::class); }
+
+    protected function casts(): array
+    {
+        return ['price' => 'integer', 'stock' => 'integer', 'is_active' => 'boolean'];
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
