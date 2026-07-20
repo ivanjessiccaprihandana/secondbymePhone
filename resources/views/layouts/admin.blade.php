@@ -39,6 +39,14 @@
                     </svg>
                     Pesanan Preorder
                 </a>
+                <a href="{{ route('admin.profile.edit') }}"
+                    class="flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold transition {{ request()->routeIs('admin.profile.*') ? 'bg-[#c8ff46] text-black' : 'text-white/55 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 21a8 8 0 0 1 16 0" />
+                    </svg>
+                    Keamanan Akun
+                </a>
             </nav>
 
             <div class="hidden px-5 lg:absolute lg:inset-x-0 lg:bottom-6 lg:block">

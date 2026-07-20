@@ -6,6 +6,7 @@ use App\Models\Preorder;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class PreorderTest extends TestCase
@@ -53,6 +54,7 @@ class PreorderTest extends TestCase
         $this->actingAs($admin)->get('/admin/products')->assertOk();
         $this->actingAs($admin)->get('/admin/products/create')->assertOk();
         $this->actingAs($admin)->get('/admin/preorders')->assertOk();
+        $this->actingAs($admin)->get('/admin/profile')->assertOk();
     }
 
     public function test_admin_products_are_grouped_by_iphone_generation(): void
@@ -147,5 +149,34 @@ class PreorderTest extends TestCase
             ->delete("/admin/preorders/{$finishedPreorder->id}")
             ->assertSessionHas('success');
         $this->assertDatabaseMissing('preorders', ['id' => $finishedPreorder->id]);
+    }
+
+    public function test_admin_login_is_rate_limited_after_five_attempts(): void
+    {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post('/admin/login', [
+                'login' => 'rate-limit-test@example.com',
+                'password' => 'password-salah',
+            ])->assertStatus(302);
+        }
+
+        $this->post('/admin/login', [
+            'login' => 'rate-limit-test@example.com',
+            'password' => 'password-salah',
+        ])->assertStatus(429);
+    }
+
+    public function test_admin_can_change_password_from_security_page(): void
+    {
+        $admin = User::factory()->create(['password' => 'PasswordLama123']);
+
+        $this->actingAs($admin)->put('/admin/profile/password', [
+            'current_password' => 'PasswordLama123',
+            'password' => 'PasswordBaru456',
+            'password_confirmation' => 'PasswordBaru456',
+        ])->assertSessionHas('success');
+
+        $this->assertTrue(Hash::check('PasswordBaru456', $admin->fresh()->password));
+        $this->assertFalse(Hash::check('PasswordLama123', $admin->fresh()->password));
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\PreorderController as AdminPreorderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\PreorderController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,9 @@ Route::get('/produk/{product:slug}', function (Product $product) {
 
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
-    Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.store');
+    Route::post('/admin/login', [AuthController::class, 'login'])
+        ->middleware('throttle:admin-login')
+        ->name('admin.login.store');
 });
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
@@ -45,4 +48,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/preorders', [AdminPreorderController::class, 'index'])->name('preorders.index');
     Route::patch('/preorders/{preorder}', [AdminPreorderController::class, 'update'])->name('preorders.update');
     Route::delete('/preorders/{preorder}', [AdminPreorderController::class, 'destroy'])->name('preorders.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });

@@ -16,9 +16,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate(['email' => 'admin@secondbymephone.id'], [
-            'name' => 'Admin SecondByMePhone', 'password' => bcrypt('admin123'),
-        ]);
+        $adminEmail = config('admin.email');
+        $adminPassword = config('admin.password');
+
+        if (! User::where('email', $adminEmail)->exists()) {
+            if (app()->isProduction() && blank($adminPassword)) {
+                throw new \RuntimeException('ADMIN_PASSWORD wajib diisi sebelum membuat admin production.');
+            }
+
+            User::create([
+                'name' => 'Admin SecondByMePhone',
+                'email' => $adminEmail,
+                'password' => $adminPassword ?: 'admin123',
+            ]);
+        }
 
         $items = [
             ['iPhone X', '64GB', 'Space Gray', 2850000, 3, 'https://images.unsplash.com/photo-1510166089176-b57564a542b1?auto=format&fit=crop&w=700&q=85'],
