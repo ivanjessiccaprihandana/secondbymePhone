@@ -6,6 +6,9 @@ use App\Models\Preorder;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
@@ -120,6 +123,31 @@ class PreorderTest extends TestCase
             ->assertSee('"stock":2', false);
     }
 
+    public function test_admin_can_upload_a_local_product_image(): void
+    {
+        $admin = User::factory()->create();
+
+        $response = $this->actingAs($admin)->post('/admin/products', [
+            'name' => 'iPhone 15 Pro',
+            'image' => UploadedFile::fake()->createWithContent(
+                'iphone-15-pro.png',
+                base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII='),
+            ),
+            'is_active' => '1',
+            'variants' => [
+                ['storage' => '256GB', 'color' => 'Natural Titanium', 'price' => 17000000, 'stock' => 2, 'is_active' => '1'],
+            ],
+        ]);
+
+        $response->assertRedirect('/admin/products');
+
+        $product = Product::where('name', 'iPhone 15 Pro')->firstOrFail();
+        $this->assertStringStartsWith('/images/products/iphone-15-pro-', $product->image_url);
+        $this->assertFileExists(public_path(ltrim($product->image_url, '/')));
+
+        File::delete(public_path(ltrim($product->image_url, '/')));
+    }
+
     public function test_admin_can_only_delete_finished_or_cancelled_preorders(): void
     {
         $admin = User::factory()->create();
@@ -178,5 +206,19 @@ class PreorderTest extends TestCase
 
         $this->assertTrue(Hash::check('PasswordBaru456', $admin->fresh()->password));
         $this->assertFalse(Hash::check('PasswordLama123', $admin->fresh()->password));
+    }
+
+    public function test_app_install_seeds_an_empty_database_only_once(): void
+    {
+        Artisan::call('app:install');
+
+        $this->assertDatabaseHas('users', ['email' => 'admin@secondbymephone.id']);
+        $this->assertDatabaseCount('products', 23);
+        $this->assertDatabaseCount('product_variants', 23);
+
+        Artisan::call('app:install');
+
+        $this->assertDatabaseCount('products', 23);
+        $this->assertDatabaseCount('product_variants', 23);
     }
 }

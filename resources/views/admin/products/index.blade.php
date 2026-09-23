@@ -87,7 +87,7 @@
                                         <tr class="transition hover:bg-slate-50/70">
                                             <td class="px-5 py-4">
                                                 <div class="flex items-center gap-3">
-                                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
+                                                    <img src="{{ $product->imageSource() }}" alt="{{ $product->name }}"
                                                         class="h-14 w-14 rounded-xl bg-slate-100 object-cover">
                                                     <div>
                                                         <p class="font-black">{{ $product->name }}</p>

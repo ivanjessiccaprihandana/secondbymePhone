@@ -94,7 +94,7 @@
                         <div
                             class="absolute inset-x-8 bottom-0 top-8 overflow-hidden rounded-t-[8rem] bg-[#d8dacd] sm:inset-x-14">
                             <img class="h-full w-full object-cover mix-blend-multiply"
-                                src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=1100&q=90"
+                                src="{{ asset('images/hero-iphone.jpg') }}"
                                 alt="iPhone pilihan SecondByMePhone">
                         </div>
                         <div
@@ -197,7 +197,7 @@
                                     class="absolute left-3 top-3 z-10 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-black">Stok
                                     {{ $product->stock }}</span><img
                                     class="aspect-[.9] w-full object-cover transition duration-700 group-hover:scale-105"
-                                    src="{{ $product->image_url }}" alt="{{ $product->name }}" loading="lazy"></a>
+                                    src="{{ $product->imageSource() }}" alt="{{ $product->name }}" loading="lazy"></a>
                             <div class="p-3">
                                 <div class="flex items-start justify-between gap-2">
                                     <div>
@@ -227,7 +227,7 @@
                 <h2 class="mt-4 text-4xl font-black tracking-[-.05em] sm:text-5xl">Mereka sudah upgrade.</h2>
             </div>
             <div class="mt-12 grid gap-5 lg:grid-cols-3">
-                @foreach ([['“Unitnya lebih mulus dari ekspektasi. Admin jelasin kondisi dengan jujur sebelum saya transfer.”', 'Nadia P.', 'Jakarta', 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=80'], ['“Pilih warna dan storage gampang. Pesan WhatsApp-nya langsung lengkap, prosesnya cepat banget.”', 'Rizky A.', 'Bandung', 'https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=800&q=80'], ['“Packing aman, battery health sesuai, garansi juga tertulis. Pasti balik lagi buat upgrade.”', 'Alya S.', 'Surabaya', 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=800&q=80']] as $review)
+                @foreach ([['“Unitnya lebih mulus dari ekspektasi. Admin jelasin kondisi dengan jujur sebelum saya transfer.”', 'Nadia P.', 'Jakarta', asset('images/review-iphone-1.jpg')], ['“Pilih warna dan storage gampang. Pesan WhatsApp-nya langsung lengkap, prosesnya cepat banget.”', 'Rizky A.', 'Bandung', asset('images/review-iphone-2.jpg')], ['“Packing aman, battery health sesuai, garansi juga tertulis. Pasti balik lagi buat upgrade.”', 'Alya S.', 'Surabaya', asset('images/review-iphone-3.jpg')]] as $review)
                     <article class="overflow-hidden rounded-[2rem] bg-white"><img class="h-56 w-full object-cover"
                             src="{{ $review[3] }}" alt="Review {{ $review[1] }}" loading="lazy">
                         <div class="p-7">

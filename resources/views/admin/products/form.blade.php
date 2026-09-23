@@ -94,7 +94,7 @@
                 </div>
             @endif
 
-            <form method="POST"
+            <form method="POST" enctype="multipart/form-data"
                 action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}"
                 class="mt-7">
                 @csrf
@@ -112,6 +112,23 @@
                         @endforeach
                     </select>
                 </label>
+
+                <div class="mt-6 grid gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:grid-cols-[160px_1fr] sm:items-center">
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                        <img id="imagePreview"
+                            src="{{ $product->exists ? $product->imageSource() : asset('images/iphone-13-product.png') }}"
+                            alt="Pratinjau gambar produk" class="aspect-square w-full object-cover">
+                    </div>
+                    <label class="block text-sm font-bold">
+                        Gambar produk
+                        <input id="imageInput" name="image" type="file" accept="image/jpeg,image/png,image/webp"
+                            @required(! $product->exists)
+                            class="mt-2 block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm file:mr-4 file:rounded-lg file:border-0 file:bg-lime-400 file:px-4 file:py-2 file:text-xs file:font-black">
+                        <span class="mt-2 block text-xs font-normal leading-5 text-slate-400">
+                            JPG, PNG, atau WebP, maksimal 5 MB. Gambar disimpan lokal dan ikut saat folder project dipindahkan.
+                        </span>
+                    </label>
+                </div>
 
                 <div class="mt-8 flex items-center justify-between gap-4">
                     <div>
@@ -216,4 +233,16 @@
 
 @push('scripts')
     @vite(['resources/js/admin-products.js'])
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+
+        imageInput?.addEventListener('change', () => {
+            const [file] = imageInput.files;
+
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+            }
+        });
+    </script>
 @endpush

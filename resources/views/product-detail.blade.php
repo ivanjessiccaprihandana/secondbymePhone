@@ -39,12 +39,12 @@
                         varian
                         {{ $initialVariant?->stock ?? 0 }}</span><img id="mainImage"
                         class="aspect-square w-full object-cover transition-opacity duration-200"
-                        src="{{ $product->image_url }}" alt="{{ $product->name }}"></div>
+                        src="{{ $product->imageSource() }}" alt="{{ $product->name }}"></div>
                 @if ($product->images->isNotEmpty())
                     <div class="mt-4 grid grid-cols-4 gap-3"><button
                             class="gallery-thumb overflow-hidden rounded-xl border-2 border-blue-600 bg-white"
-                            data-image="{{ $product->image_url }}"><img class="aspect-square w-full object-cover"
-                                src="{{ $product->image_url }}" alt="Foto utama"></button>
+                            data-image="{{ $product->imageSource() }}"><img class="aspect-square w-full object-cover"
+                                src="{{ $product->imageSource() }}" alt="Foto utama"></button>
                         @foreach ($product->images->take(3) as $image)
                             <button
                                 class="gallery-thumb overflow-hidden rounded-xl border-2 border-transparent bg-white"
@@ -137,7 +137,7 @@
                 @foreach ($related as $item)
                     <a href="{{ route('products.show', $item) }}"
                         class="group overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 transition hover:-translate-y-1 hover:shadow-xl"><img
-                            class="aspect-square w-full rounded-xl object-cover" src="{{ $item->image_url }}"
+                            class="aspect-square w-full rounded-xl object-cover" src="{{ $item->imageSource() }}"
                             alt="{{ $item->name }}">
                         <h3 class="mt-4 text-sm font-bold">{{ $item->name }}</h3>
                         <p class="mt-1 text-sm font-black text-blue-700">Rp

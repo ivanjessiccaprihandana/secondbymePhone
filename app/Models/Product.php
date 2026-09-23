@@ -19,6 +19,17 @@ class Product extends Model
         return 'slug';
     }
 
+    public function imageSource(): string
+    {
+        if (blank($this->image_url)) {
+            return asset('images/iphone-13-product.png');
+        }
+
+        return str_starts_with($this->image_url, 'http://') || str_starts_with($this->image_url, 'https://')
+            ? $this->image_url
+            : asset(ltrim($this->image_url, '/'));
+    }
+
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class)->orderBy('sort_order');

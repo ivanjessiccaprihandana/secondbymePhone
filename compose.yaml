@@ -1,0 +1,66 @@
+name: secondbymephone
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        init: true
+        restart: unless-stopped
+        ports:
+            - '${DOCKER_APP_PORT:-8000}:80'
+        environment:
+            APP_NAME: SecondByMePhone
+            APP_ENV: local
+            APP_KEY: base64:VLsbYDUGGLKWSr374DJbgMs8w2DGURMZX62Nh9VecEM=
+            APP_DEBUG: 'true'
+            APP_URL: http://localhost:${DOCKER_APP_PORT:-8000}
+            APP_LOCALE: id
+            APP_FALLBACK_LOCALE: id
+            LOG_CHANNEL: stderr
+            DB_CONNECTION: mysql
+            DB_HOST: db
+            DB_PORT: 3306
+            DB_DATABASE: secondbymephone
+            DB_USERNAME: secondbymephone
+            DB_PASSWORD: docker
+            SESSION_DRIVER: database
+            CACHE_STORE: database
+            QUEUE_CONNECTION: database
+            ADMIN_EMAIL: admin@secondbymephone.id
+            ADMIN_PASSWORD: AdminDocker123
+        depends_on:
+            db:
+                condition: service_healthy
+                restart: true
+        volumes:
+            - app_storage:/var/www/html/storage
+        healthcheck:
+            test: ['CMD', 'curl', '--fail', 'http://localhost/up']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 30s
+
+    db:
+        image: mysql:8.4
+        restart: unless-stopped
+        ports:
+            - '${DOCKER_DB_PORT:-3307}:3306'
+        environment:
+            MYSQL_DATABASE: secondbymephone
+            MYSQL_USER: secondbymephone
+            MYSQL_PASSWORD: docker
+            MYSQL_ROOT_PASSWORD: docker-root
+        volumes:
+            - mysql_data:/var/lib/mysql
+        healthcheck:
+            test: ['CMD-SHELL', 'mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD} --silent']
+            interval: 5s
+            timeout: 5s
+            retries: 20
+            start_period: 20s
+
+volumes:
+    app_storage:
+    mysql_data:

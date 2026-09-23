@@ -7,6 +7,7 @@ use App\Models\Preorder;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -37,6 +38,7 @@ class ProductController extends Controller
     {
         $validated = $this->validated($request);
         $first = $validated['variants'][0];
+        $imageUrl = $this->storeImage($request, $validated['name']);
         $product = Product::create([
             'name' => $validated['name'],
             'slug' => Str::slug($validated['name']).'-'.Str::lower(Str::random(4)),
@@ -44,7 +46,7 @@ class ProductController extends Controller
             'color' => $first['color'],
             'price' => $first['price'],
             'stock' => 0,
-            'image_url' => '/images/iphone-13-product.png',
+            'image_url' => $imageUrl,
             'is_active' => $request->boolean('is_active'),
         ]);
         $this->syncVariants($product, $validated['variants']);
@@ -60,11 +62,20 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product): RedirectResponse
     {
-        $validated = $this->validated($request);
+        $validated = $this->validated($request, $product);
+        $oldImageUrl = $product->image_url;
         $product->update([
             'name' => $validated['name'],
+            'image_url' => $request->hasFile('image')
+                ? $this->storeImage($request, $validated['name'])
+                : $oldImageUrl,
             'is_active' => $request->boolean('is_active'),
         ]);
+
+        if ($request->hasFile('image')) {
+            $this->deleteManagedImage($oldImageUrl);
+        }
+
         $this->syncVariants($product, $validated['variants']);
         $this->refreshProductSummary($product);
 
@@ -73,15 +84,18 @@ class ProductController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
+        $imageUrl = $product->image_url;
         $product->delete();
+        $this->deleteManagedImage($imageUrl);
 
         return back()->with('success', 'Produk berhasil dihapus.');
     }
 
-    private function validated(Request $request): array
+    private function validated(Request $request, ?Product $product = null): array
     {
         return $request->validate([
             'name' => ['required', 'string', 'max:100'],
+            'image' => [$product?->exists ? 'nullable' : 'required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'variants' => ['required', 'array', 'min:1', 'max:30'],
             'variants.*.storage' => ['required', 'string', 'max:30'],
             'variants.*.color' => ['required', 'string', 'max:60'],
@@ -89,6 +103,31 @@ class ProductController extends Controller
             'variants.*.stock' => ['required', 'integer', 'min:0'],
             'variants.*.is_active' => ['nullable', 'boolean'],
         ]);
+    }
+
+    private function storeImage(Request $request, string $productName): string
+    {
+        $image = $request->file('image');
+        $directory = public_path('images/products');
+        File::ensureDirectoryExists($directory);
+
+        $filename = Str::slug($productName).'-'.Str::uuid().'.'.$image->extension();
+        $image->move($directory, $filename);
+
+        return '/images/products/'.$filename;
+    }
+
+    private function deleteManagedImage(?string $imageUrl): void
+    {
+        if (! $imageUrl || ! Str::startsWith($imageUrl, '/images/products/')) {
+            return;
+        }
+
+        if (Product::where('image_url', $imageUrl)->exists()) {
+            return;
+        }
+
+        File::delete(public_path(ltrim($imageUrl, '/')));
     }
 
     private function syncVariants(Product $product, array $variants): void
